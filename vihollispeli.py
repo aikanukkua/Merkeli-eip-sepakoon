@@ -19,6 +19,34 @@ def piirtaminen(naytto, hahmot, viholliset):
             naytto.blit(kuva, (hahmo[1], hahmo[2]))
     pygame.display.flip()
 
+def vihollisenKeskipiste(viholliset):
+    for vihollinen in viholliset:
+        vihollisenKeskipiste = [vihollinen[1]+86, vihollinen[2]+80]
+        return vihollisenKeskipiste
+
+def kuutinKeskipiste(hahmot):
+    for hahmo in hahmot:
+        kuutinKeskipiste = [hahmo[1]+50, hahmo[2]+50]
+        return kuutinKeskipiste
+
+def feilausEtäisyysX(vihollisreturni, kuuttireturni):
+    feilausEtäisyysX=(vihollisreturni[0]-kuuttireturni[0])
+    feilausEtäisyysX=abs(feilausEtäisyysX)
+    return feilausEtäisyysX
+
+def feilausEtäisyysY(vihollisreturni, kuuttireturni):
+        feilausEtäisyysY=vihollisreturni[1]-kuuttireturni[1]
+        feilausEtäisyysY=abs(feilausEtäisyysY)
+        return feilausEtäisyysY
+
+def feilaus(feilausEtäisyysX, feilausEtäisyysY, kuuttireturni, vihollisreturni):
+    #feilausEtäisyysX = 86 + 50
+    #feilausEtäisyysY = 80 + 50
+    if abs(vihollisreturni[0]-kuuttireturni[0])<=feilausEtäisyysX and abs(vihollisreturni[1]-kuuttireturni[1])<=feilausEtäisyysY:
+        print("moi")
+        quit()
+
+
 def kontrolli(hahmot, tapahtuma, viholliset):
     päähahmo = hahmot[0]
     if tapahtuma.type == pygame.KEYDOWN:
@@ -44,7 +72,7 @@ def kontrolli(hahmot, tapahtuma, viholliset):
 
 
 def main():
-    kuuttihahmo = ["kuutti.jpg", 10, 10, False]
+    kuuttihahmo = ["kuutti.jpg", 500, 300, False]
     merkel1 = ["angela.jpg", 340, 10, False]
     merkel2 = ["angela.jpg", 20, 144, False]
     merkel3 = ["angela.jpg", 150, 300, False]
@@ -54,8 +82,11 @@ def main():
         tapahtuma = pygame.event.poll()
         if tapahtuma.type == pygame.QUIT:
             break
+        kuuttireturni = kuutinKeskipiste(hahmot)
+        vihollisreturni=vihollisenKeskipiste(viholliset)
         kontrolli(hahmot, tapahtuma, viholliset)
         piirtaminen(naytto, hahmot, viholliset)
+        feilaus((86 + 50), (80 + 50), kuuttireturni, vihollisreturni)
+
 
 main()
-
